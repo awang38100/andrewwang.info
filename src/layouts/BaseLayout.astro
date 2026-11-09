@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { AUTHOR, NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { AUTHOR, HEADSHOT, NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 
 interface Props {
   title?: string;
@@ -24,8 +24,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = image ? new URL(image, Astro.site) : undefined;
 
 const currentPath = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+const isHome = currentPath === '/';
+const isActive = (href: string) => (href === '/' ? isHome : currentPath.startsWith(href));
+
+// The name is the page heading on the home page; inner pages have their own <h1>
+const NameTag = isHome ? 'h1' : 'p';
 ---
 
 <!doctype html>
@@ -34,8 +37,8 @@ const isActive = (href: string) =>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfa" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141416" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf9f7" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1a19" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{pageTitle}</title>
@@ -46,6 +49,13 @@ const isActive = (href: string) =>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} · Writing`} href="/rss.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap"
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content={type} />
@@ -65,13 +75,14 @@ const isActive = (href: string) =>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="site-name" href="/">{SITE_TITLE}</a>
+    <div class="container">
+      <aside class:list={['sidebar', { 'sidebar-compact': !isHome }]}>
+        <NameTag class="name"><a href="/">{SITE_TITLE}</a></NameTag>
+        <img class="headshot" src={HEADSHOT} alt={`Photo of ${AUTHOR.name}`} width="230" height="288" />
         <nav aria-label="Main">
           <ul>
             {
-              NAV_LINKS.filter((link) => link.href !== '/').map((link) => (
+              NAV_LINKS.map((link) => (
                 <li>
                   <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
                     {link.label}
@@ -81,23 +92,24 @@ const isActive = (href: string) =>
             }
           </ul>
         </nav>
-      </div>
-    </header>
+      </aside>
 
-    <main id="main" class="container">
-      <slot />
-    </main>
+      <main id="main" class="content">
+        <ul class="social-links">
+          {
+            SOCIAL_LINKS.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <slot />
+      </main>
+    </div>
 
     <footer class="site-footer">
-      <div class="container footer-inner">
-        <span>&copy; {new Date().getFullYear()} {AUTHOR.name}</span>
-        <ul>
-          <li><a href={`mailto:${AUTHOR.email}`}>Email</a></li>
-          <li><a href={AUTHOR.github}>GitHub</a></li>
-          <li><a href={AUTHOR.linkedin}>LinkedIn</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
-        </ul>
-      </div>
+      &copy; {new Date().getFullYear()} {AUTHOR.name} · <a href="/rss.xml">RSS</a>
     </footer>
   </body>
 </html>

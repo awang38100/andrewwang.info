@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+const statusLabel = (status: string) => status.charAt(0).toUpperCase() + status.slice(1);
+---
+
+<ul class="item-list">
+  {
+    projects.map((project) => (
+      <li>
+        {project.data.link ? (
+          <a class="item-title" href={project.data.link}>
+            {project.data.name}
+          </a>
+        ) : (
+          <span class="item-title">{project.data.name}</span>
+        )}
+        <div class="item-meta">
+          {project.data.summary} · {statusLabel(project.data.status)}
+        </div>
+      </li>
+    ))
+  }
+</ul>
