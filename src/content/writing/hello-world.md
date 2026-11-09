@@ -2,7 +2,7 @@
 title: Hello, world
 date: 2026-11-08
 description: A first post to kick off the site, and a sample of how posts are formatted.
-draft: false
+draft: true
 ---
 
 Welcome to my site. This is a sample post. Replace it with your own, or delete it once you've written a real one.

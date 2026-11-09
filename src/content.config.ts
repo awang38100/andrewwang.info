@@ -19,6 +19,7 @@ const projects = defineCollection({
     summary: z.string(),
     link: z.url().optional(),
     status: z.enum(['active', 'maintained', 'completed', 'archived']),
+    draft: z.boolean().default(false),
   }),
 });
 

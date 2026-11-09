@@ -13,10 +13,10 @@ const selectedProjects = (await getProjects()).slice(0, 3);
 <BaseLayout>
   <section class="bio">
     <p>
-      I'm <b>{AUTHOR.name}</b>. I build AI Products and Solutions at Citadel in NYC.
+      I'm <b>{AUTHOR.name}</b>. I build AI products and solutions at Citadel in NYC.
     </p>
     <p>
-      Previously, I spent two years as a consultant at BCG and studied Electrical Engineering &amp; Computer Science and
+      Previously, I spent two years as a BCG consultant and studied Electrical Engineering &amp; Computer Science and
       Economics at Yale.
     </p>
     <p>
@@ -25,15 +25,27 @@ const selectedProjects = (await getProjects()).slice(0, 3);
     </p>
   </section>
 
-  <section>
-    <h2 class="section-heading">Selected Projects</h2>
-    <ProjectList projects={selectedProjects} />
-    <p><a href="/projects/">All projects →</a></p>
-  </section>
+  {
+    selectedProjects.length > 0 && (
+      <section>
+        <h2 class="section-heading">Selected Projects</h2>
+        <ProjectList projects={selectedProjects} />
+        <p>
+          <a href="/projects/">All projects →</a>
+        </p>
+      </section>
+    )
+  }
 
-  <section>
-    <h2 class="section-heading">Recent Writing</h2>
-    {recentPosts.length > 0 ? <PostList posts={recentPosts} /> : <p class="muted">Nothing here yet.</p>}
-    <p><a href="/writing/">All writing →</a></p>
-  </section>
+  {
+    recentPosts.length > 0 && (
+      <section>
+        <h2 class="section-heading">Recent Writing</h2>
+        <PostList posts={recentPosts} />
+        <p>
+          <a href="/writing/">All writing →</a>
+        </p>
+      </section>
+    )
+  }
 </BaseLayout>

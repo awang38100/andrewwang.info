@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import { AUTHOR, HEADSHOT, NAV_LINKS, SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
+import { getPosts } from '../lib/posts';
+import { getProjects } from '../lib/projects';
 
 interface Props {
   title?: string;
@@ -9,6 +11,8 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   publishedDate?: Date;
+  /** Keep this page out of search results, e.g. an index page with nothing published yet. */
+  noindex?: boolean;
 }
 
 const {
@@ -17,6 +21,7 @@ const {
   image,
   type = 'website',
   publishedDate,
+  noindex = false,
 } = Astro.props;
 
 const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
@@ -29,6 +34,13 @@ const isActive = (href: string) => (href === '/' ? isHome : currentPath.startsWi
 
 // The name is the page heading on the home page; inner pages have their own <h1>
 const NameTag = isHome ? 'h1' : 'p';
+
+// Hide sections that have nothing published yet
+const hasPosts = (await getPosts()).length > 0;
+const hasProjects = (await getProjects()).length > 0;
+const navLinks = NAV_LINKS.filter(
+  (link) => (link.href !== '/writing/' || hasPosts) && (link.href !== '/projects/' || hasProjects),
+);
 ---
 
 <!doctype html>
@@ -45,6 +57,7 @@ const NameTag = isHome ? 'h1' : 'p';
     <meta name="description" content={description} />
     <meta name="author" content={AUTHOR.name} />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -79,19 +92,21 @@ const NameTag = isHome ? 'h1' : 'p';
       <aside class:list={['sidebar', { 'sidebar-compact': !isHome }]}>
         <NameTag class="name"><a href="/">{SITE_TITLE}</a></NameTag>
         <img class="headshot" src={HEADSHOT} alt={`Photo of ${AUTHOR.name}`} width="230" height="288" />
-        <nav aria-label="Main">
-          <ul>
-            {
-              NAV_LINKS.map((link) => (
-                <li>
-                  <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
-                    {link.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
+        {
+          navLinks.length > 1 && (
+            <nav aria-label="Main">
+              <ul>
+                {navLinks.map((link) => (
+                  <li>
+                    <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )
+        }
       </aside>
 
       <main id="main" class="content">
@@ -109,7 +124,14 @@ const NameTag = isHome ? 'h1' : 'p';
     </div>
 
     <footer class="site-footer">
-      &copy; {new Date().getFullYear()} {AUTHOR.name} · <a href="/rss.xml">RSS</a>
+      &copy; {new Date().getFullYear()} {AUTHOR.name}
+      {
+        hasPosts && (
+          <>
+            · <a href="/rss.xml">RSS</a>
+          </>
+        )
+      }
     </footer>
   </body>
 </html>

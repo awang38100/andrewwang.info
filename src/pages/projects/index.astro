@@ -6,8 +6,8 @@ import { getProjects } from '../../lib/projects';
 const projects = await getProjects();
 ---
 
-<BaseLayout title="Projects" description="Things I've built and am building.">
+<BaseLayout title="Projects" description="Things I've built and am building." noindex={projects.length === 0}>
   <h1>Projects</h1>
   <p class="muted">Things I've built and am building.</p>
-  <ProjectList projects={projects} />
+  {projects.length > 0 ? <ProjectList projects={projects} /> : <p class="muted">Nothing here yet.</p>}
 </BaseLayout>
