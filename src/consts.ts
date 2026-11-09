@@ -1,7 +1,7 @@
 // Site-wide settings. Replace the TODO placeholders with your own details.
 
 export const SITE_TITLE = 'Andrew Wang';
-export const SITE_DESCRIPTION = 'Andrew Wang works on AI products and solutions at Citadel in New York.';
+export const SITE_DESCRIPTION = 'Andrew Wang builds AI products and solutions at Citadel.';
 
 export const AUTHOR = {
   name: 'Andrew Wang',

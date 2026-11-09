@@ -123,15 +123,12 @@ const navLinks = NAV_LINKS.filter(
       </main>
     </div>
 
-    <footer class="site-footer">
-      &copy; {new Date().getFullYear()} {AUTHOR.name}
-      {
-        hasPosts && (
-          <>
-            · <a href="/rss.xml">RSS</a>
-          </>
-        )
-      }
-    </footer>
+    {
+      hasPosts && (
+        <footer class="site-footer">
+          <a href="/rss.xml">RSS</a>
+        </footer>
+      )
+    }
   </body>
 </html>
