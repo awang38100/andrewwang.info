@@ -66,8 +66,13 @@ name: Project name
 summary: One or two sentences about the project.
 link: https://github.com/you/project # optional, must be a full URL
 status: active # one of: active | maintained | completed | archived
+draft: false # optional, defaults to false. Drafts show in dev only.
 ---
 ```
+
+## Empty sections
+
+The Writing and Projects sections hide themselves until something is published (non-draft). Their nav links, home-page sections, and the footer RSS link disappear, and their index pages get `noindex`. The sample post and placeholder projects are kept as drafts, so they still show in `npm run dev` as examples. Publishing the first real post or project brings everything back automatically.
 
 ## Layout
 
