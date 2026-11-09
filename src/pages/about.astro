@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR } from '../consts';
+---
+
+<BaseLayout title="About" description={`About ${AUTHOR.name}: background, experience, and how to get in touch.`}>
+  <h1>About</h1>
+
+  <p>TODO: A paragraph about who you are and what you do now.</p>
+
+  <h2>Background</h2>
+  <p>TODO: Where you've worked or studied, what you've focused on, and what you care about.</p>
+  <ul>
+    <li><strong>TODO: Role</strong>, TODO: Company (YYYY–present)</li>
+    <li><strong>TODO: Role</strong>, TODO: Company (YYYY–YYYY)</li>
+    <li><strong>TODO: Degree</strong>, TODO: School (YYYY)</li>
+  </ul>
+
+  <h2>Elsewhere</h2>
+  <ul>
+    <li>Email: <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a></li>
+    <li>GitHub: <a href={AUTHOR.github}>{AUTHOR.github.replace('https://', '')}</a></li>
+    <li>LinkedIn: <a href={AUTHOR.linkedin}>{AUTHOR.linkedin.replace('https://www.', '')}</a></li>
+  </ul>
+</BaseLayout>
