@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const statusOrder = ['active', 'maintained', 'completed', 'archived'];
+const projects = (await getCollection('projects')).sort(
+  (a, b) =>
+    statusOrder.indexOf(a.data.status) - statusOrder.indexOf(b.data.status) ||
+    a.data.name.localeCompare(b.data.name),
+);
+---
+
+<BaseLayout title="Projects" description="Things I've built and am building.">
+  <h1>Projects</h1>
+  <p class="muted">Things I've built and am building.</p>
+
+  <ul class="projects">
+    {
+      projects.map((project) => (
+        <li>
+          <div class="project-title">
+            <h2>{project.data.link ? <a href={project.data.link}>{project.data.name}</a> : project.data.name}</h2>
+            <span class="badge">{project.data.status}</span>
+          </div>
+          <p>{project.data.summary}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .projects {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .projects li {
+    margin: 0;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .project-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+  h2 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

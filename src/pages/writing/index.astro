@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<BaseLayout title="Writing" description="Essays, notes, and other writing.">
+  <h1>Writing</h1>
+  <p class="muted">Essays and notes. Subscribe via <a href="/rss.xml">RSS</a>.</p>
+  {posts.length > 0 ? <PostList posts={posts} /> : <p class="muted">Nothing here yet.</p>}
+</BaseLayout>

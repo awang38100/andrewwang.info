@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { getPosts } from '../lib/posts';
+import { SITE_TITLE } from '../consts';
+
+const recentPosts = (await getPosts()).slice(0, 5);
+---
+
+<BaseLayout>
+  <section class="intro">
+    <h1>Hi, I'm {SITE_TITLE}.</h1>
+    <p>
+      TODO: A two- or three-sentence intro. What you do, what you're interested in, and what people
+      will find here.
+    </p>
+    <ul class="section-links">
+      <li><a href="/about/">About me</a></li>
+      <li><a href="/writing/">Writing</a></li>
+      <li><a href="/projects/">Projects</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Recent writing</h2>
+    {recentPosts.length > 0 ? <PostList posts={recentPosts} /> : <p class="muted">Nothing here yet.</p>}
+    <p><a href="/writing/">All posts →</a></p>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro p {
+    font-size: 1.15rem;
+    color: var(--muted);
+  }
+  .section-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+  .section-links li + li {
+    margin-top: 0;
+  }
+</style>
