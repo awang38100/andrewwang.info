@@ -1,46 +1,88 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
+import ProjectList from '../components/ProjectList.astro';
 import { getPosts } from '../lib/posts';
-import { SITE_TITLE } from '../consts';
+import { getProjects } from '../lib/projects';
+import { AUTHOR } from '../consts';
 
 const recentPosts = (await getPosts()).slice(0, 5);
+const selectedProjects = (await getProjects()).slice(0, 3);
+
+const experience = [
+  {
+    org: 'Citadel',
+    role: 'AI Products & Solutions',
+    location: 'New York, NY',
+    dates: 'Aug 2026 – Present',
+  },
+  {
+    org: 'Boston Consulting Group (BCG)',
+    role: 'Management Consulting',
+    location: 'Boston, MA',
+    dates: 'Jul 2024 – Jul 2026',
+  },
+];
+
+const education = [{ school: 'Yale University', degree: 'B.S., Electrical Engineering & Computer Science and Economics', dates: '2024' }];
 ---
 
 <BaseLayout>
-  <section class="intro">
-    <h1>Hi, I'm {SITE_TITLE}.</h1>
+  <section class="bio">
     <p>
-      TODO: A two- or three-sentence intro. What you do, what you're interested in, and what people
-      will find here.
+      I'm <b>{AUTHOR.name}</b>. I work on AI products and solutions at Citadel in New York.
     </p>
-    <ul class="section-links">
-      <li><a href="/about/">About me</a></li>
-      <li><a href="/writing/">Writing</a></li>
-      <li><a href="/projects/">Projects</a></li>
+    <p>
+      Before that, I spent two years in management consulting at Boston Consulting Group after graduating from Yale in 2024.
+      TODO: A sentence or two on what you're interested in or working on.
+    </p>
+    <p>
+      Feel free to reach me at{' '}
+      <a href={`mailto:${AUTHOR.email}`}>{AUTHOR.email}</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-heading">Experience</h2>
+    <ul class="item-list">
+      {
+        experience.map((job) => (
+          <li>
+            <span class="item-title">{job.org}</span>
+            <div class="item-meta">
+              {job.role} · {job.location} · {job.dates}
+            </div>
+          </li>
+        ))
+      }
     </ul>
   </section>
 
   <section>
-    <h2>Recent writing</h2>
+    <h2 class="section-heading">Education</h2>
+    <ul class="item-list">
+      {
+        education.map((school) => (
+          <li>
+            <span class="item-title">{school.school}</span>
+            <div class="item-meta">
+              {school.degree} · {school.dates}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="section-heading">Selected Projects</h2>
+    <ProjectList projects={selectedProjects} />
+    <p><a href="/projects/">All projects →</a></p>
+  </section>
+
+  <section>
+    <h2 class="section-heading">Recent Writing</h2>
     {recentPosts.length > 0 ? <PostList posts={recentPosts} /> : <p class="muted">Nothing here yet.</p>}
-    <p><a href="/writing/">All posts →</a></p>
+    <p><a href="/writing/">All writing →</a></p>
   </section>
 </BaseLayout>
-
-<style>
-  .intro p {
-    font-size: 1.15rem;
-    color: var(--muted);
-  }
-  .section-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-  }
-  .section-links li + li {
-    margin-top: 0;
-  }
-</style>

@@ -18,24 +18,24 @@ Personal website built with [Astro](https://astro.build) (static output, TypeScr
 ```
 astro.config.mjs          site URL, sitemap integration, Shiki light/dark themes
 src/
-  consts.ts               site title, description, author links (email/GitHub/LinkedIn), nav
+  consts.ts               site title, description, email, headshot path, social links, nav
   content.config.ts       content collection schemas (writing, projects)
   content/
     writing/*.md          blog posts; the filename is the URL slug
     projects/*.md         projects (frontmatter only, the body isn't rendered)
   lib/posts.ts            getPosts(): sorted posts, drafts filtered out in production
-  layouts/BaseLayout.astro  <head> meta/Open Graph, header nav, footer
-  components/             PostList, FormattedDate
+  lib/projects.ts         getProjects(): projects sorted by status then name
+  layouts/BaseLayout.astro  <head> meta/Open Graph, sidebar (name, headshot, nav), social links, footer
+  components/             PostList, ProjectList, FormattedDate
   pages/
-    index.astro           home: intro, section links, 5 most recent posts
-    about.astro           background and contact links
+    index.astro           home: bio (doubles as the About page), 3 projects, 5 most recent posts
     writing/index.astro   all posts
     writing/[...slug].astro  individual post page
     projects/index.astro  projects, sorted by status then name
     rss.xml.ts            RSS feed for writing (/rss.xml)
     404.astro
-  styles/global.css       design tokens (light + dark via prefers-color-scheme), typography, header/footer
-public/                   copied as-is: CNAME, favicon.svg, robots.txt
+  styles/global.css       design tokens (light + dark via prefers-color-scheme), typography, sidebar layout, list styles
+public/                   copied as-is: CNAME, favicon.svg, headshot.jpg, robots.txt
 .github/workflows/deploy.yml  build with withastro/action, deploy with actions/deploy-pages
 ```
 
@@ -69,11 +69,17 @@ status: active # one of: active | maintained | completed | archived
 ---
 ```
 
+## Layout
+
+Two columns: a 230px sidebar (name, headshot, nav) beside the content column, max width 1000px. Social links sit top-right of the content column. At 640px and below the sidebar stacks above the content, centered, and inner pages hide the headshot. Font is Source Sans 3 from Google Fonts at an 18px base.
+
+The headshot is `public/headshot.jpg` (4:5 portrait). To swap it, replace that file or point `HEADSHOT` in `src/consts.ts` at a new one.
+
 ## Conventions
 
 - Keep it static and JS-free. Pages ship zero client-side JavaScript today, so don't add a UI framework or client scripts unless a feature truly needs one.
-- Colors come from CSS variables in `src/styles/global.css`. Use `var(--text)`, `var(--muted)`, `var(--border)`, `var(--accent)` etc. rather than hard-coded colors so dark mode keeps working.
-- Component-specific styles go in a scoped `<style>` block in the `.astro` file.
+- Colors come from CSS variables in `src/styles/global.css`. Use `var(--text)`, `var(--muted)`, `var(--border)`, `var(--surface)` rather than hard-coded colors so dark mode keeps working.
+- Writing and project lists share the `.item-list` / `.item-title` / `.item-meta` styles, and home-page section titles use `.section-heading`.
 - Internal links use trailing slashes (`/writing/`) to match the directory-style build output.
 - Every page should use `BaseLayout` and pass `title` and `description`. Pass `image` (PNG/JPG, ~1200x630) to add an `og:image`.
 - Frontmatter is validated by Zod schemas in `src/content.config.ts`. Change the schema there when adding fields.
