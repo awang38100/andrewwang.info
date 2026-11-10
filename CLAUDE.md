@@ -25,14 +25,14 @@ src/
     projects/*.md         projects (frontmatter only, the body isn't rendered)
   lib/posts.ts            getPosts(): sorted posts, drafts filtered out in production
   lib/projects.ts         getProjects(): projects sorted by status then name
-  layouts/BaseLayout.astro  <head> meta/Open Graph, sidebar (name, headshot, nav), social links, footer
+  layouts/BaseLayout.astro  <head> meta/Open Graph, sidebar (name, headshot, nav), social links
   components/             PostList, ProjectList, FormattedDate
   pages/
     index.astro           home: bio (doubles as the About page), 3 projects, all posts ("Writings")
     writing/index.astro   all posts (built but not linked from the nav for now; see NAV_LINKS in consts.ts)
     writing/[...slug].astro  individual post page
     projects/index.astro  projects, sorted by status then name
-    rss.xml.ts            RSS feed for writing (/rss.xml)
+    rss.xml.ts            RSS feed for writing (/rss.xml); not linked visibly, only via <link rel="alternate"> in <head>
     404.astro
   styles/global.css       design tokens (light + dark via prefers-color-scheme), typography, sidebar layout, list styles
 public/                   copied as-is: CNAME, favicon.svg, headshot.jpg, robots.txt
@@ -76,7 +76,7 @@ draft: false # optional, defaults to false. Drafts show in dev only.
 
 ## Empty sections
 
-The Writing and Projects sections hide themselves until something is published (non-draft). Their nav links, home-page sections, and the footer RSS link disappear, and their index pages get `noindex`. The sample post and placeholder projects are kept as drafts, so they still show in `npm run dev` as examples. Publishing the first real post or project brings everything back automatically.
+The Writing and Projects sections hide themselves until something is published (non-draft). Their nav links and home-page sections disappear, and their index pages get `noindex`. The sample post and placeholder projects are kept as drafts, so they still show in `npm run dev` as examples. Publishing the first real post or project brings everything back automatically.
 
 ## Layout
 

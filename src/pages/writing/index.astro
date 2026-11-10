@@ -8,6 +8,6 @@ const posts = await getPosts();
 
 <BaseLayout title="Writing" description="Essays, notes, and other writing." noindex={posts.length === 0}>
   <h1>Writing</h1>
-  <p class="muted">Essays and notes. Subscribe via <a href="/rss.xml">RSS</a>.</p>
+  <p class="muted">Essays and notes.</p>
   {posts.length > 0 ? <PostList posts={posts} /> : <p class="muted">Nothing here yet.</p>}
 </BaseLayout>

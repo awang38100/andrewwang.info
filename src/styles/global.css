@@ -113,18 +113,6 @@ body {
   font-size: 0.9rem;
 }
 
-.site-footer {
-  max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem 2rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-.site-footer a {
-  color: inherit;
-}
-
 /* Typography */
 h1,
 h2,
@@ -302,10 +290,6 @@ a.item-title:hover {
     align-items: stretch;
     gap: 1.5rem;
     padding: 2rem 1rem;
-  }
-  .site-footer {
-    padding: 0 1rem 2rem;
-    text-align: center;
   }
   .sidebar {
     width: 100%;
