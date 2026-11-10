@@ -4,12 +4,16 @@ import { z } from 'astro/zod';
 
 const writing = defineCollection({
   loader: glob({ base: './src/content/writing', pattern: '**/*.md' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    description: z.string(),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      description: z.string(),
+      draft: z.boolean().default(false),
+      /** Header image shown above the post and used as its social preview. Path is relative to the .md file. */
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+    }),
 });
 
 const projects = defineCollection({
