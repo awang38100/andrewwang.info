@@ -344,3 +344,11 @@ a.item-title:hover {
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }
+
+/* Post body: dash bullets, and a paragraph that introduces a list sits tight against it */
+.prose ul {
+  list-style-type: '–  ';
+}
+.prose p:has(+ ol, + ul) {
+  margin-bottom: 0.25rem;
+}

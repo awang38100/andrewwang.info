@@ -49,10 +49,14 @@ title: My post title
 date: 2026-11-08
 description: One-sentence summary, used for the meta description, OG tags, and RSS.
 draft: false # optional, defaults to false. Drafts show in dev only.
+cover: ../../assets/writing/<slug>.png # optional header image, path relative to the .md file
+coverAlt: Description of the image for screen readers # set this whenever cover is set
 ---
 
 Post body in Markdown.
 ```
+
+A `cover` image is shown above the post title, optimized to responsive WebP at build time, and used as the post's `og:image` (link-preview image). Keep cover images in `src/assets/writing/`, not `public/`, so Astro can optimize them. A 16:9 image around 1600px wide works well.
 
 The post shows up on the writing index, on the home page (if it's one of the 5 newest), in the RSS feed, and in the sitemap automatically.
 
