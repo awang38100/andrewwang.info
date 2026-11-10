@@ -19,8 +19,9 @@ export const SOCIAL_LINKS = [
   { label: 'Email', href: `mailto:${AUTHOR.email}` },
 ];
 
+// Writing is left out while all posts fit on the home page; add
+// { href: '/writing/', label: 'Writing' } back to link the full index.
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/writing/', label: 'Writing' },
   { href: '/projects/', label: 'Projects' },
 ];

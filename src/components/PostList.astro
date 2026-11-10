@@ -9,18 +9,37 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-<ul class="item-list">
+<ul class="item-list post-list">
   {
     posts.map((post) => (
       <li>
-        <a class="item-title" href={`/writing/${post.id}/`}>
-          {post.data.title}
-        </a>
-        {post.data.draft && <span class="badge">draft</span>}
-        <div class="item-meta">
-          <FormattedDate date={post.data.date} /> · {post.data.description}
-        </div>
+        <span class="post-date">
+          <FormattedDate date={post.data.date} />
+        </span>
+        <span>
+          <a class="item-title" href={`/writing/${post.id}/`}>
+            {post.data.title}
+          </a>
+          {post.data.draft && <span class="badge">draft</span>}
+        </span>
       </li>
     ))
   }
 </ul>
+
+<style>
+  /* One row per post: fixed-width date column, then the title */
+  .post-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .post-date {
+    flex-shrink: 0;
+    width: 5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
