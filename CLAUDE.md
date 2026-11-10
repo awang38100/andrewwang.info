@@ -28,8 +28,8 @@ src/
   layouts/BaseLayout.astro  <head> meta/Open Graph, sidebar (name, headshot, nav), social links, footer
   components/             PostList, ProjectList, FormattedDate
   pages/
-    index.astro           home: bio (doubles as the About page), 3 projects, 5 most recent posts
-    writing/index.astro   all posts
+    index.astro           home: bio (doubles as the About page), 3 projects, all posts ("Writings")
+    writing/index.astro   all posts (built but not linked from the nav for now; see NAV_LINKS in consts.ts)
     writing/[...slug].astro  individual post page
     projects/index.astro  projects, sorted by status then name
     rss.xml.ts            RSS feed for writing (/rss.xml)
@@ -58,7 +58,7 @@ Post body in Markdown.
 
 A `cover` image is shown above the post title, optimized to responsive WebP at build time, and used as the post's `og:image` (link-preview image). Keep cover images in `src/assets/writing/`, not `public/`, so Astro can optimize them. A 16:9 image around 1600px wide works well.
 
-The post shows up on the writing index, on the home page (if it's one of the 5 newest), in the RSS feed, and in the sitemap automatically.
+The post shows up in the home page's "Writings" list, on `/writing/`, in the RSS feed, and in the sitemap automatically. Lists show one row per post: date, then title (the `description` is only used for meta tags and RSS).
 
 ## Adding a project
 
